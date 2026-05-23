@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>WebEdu · Cursos em E-books</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f4f7fc 0%, #eef2f5 100%);
+            color: #1a2c3e;
+            line-height: 1.5;
+        }
+
+        /* Header superior */
+        .top-header {
+            background: linear-gradient(135deg, #1e4663, #143750);
+            color: white;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 4px solid #f0a34b;
+        }
+
+        .top-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .top-header h1 i {
+            font-size: 2.2rem;
+            color: #f0a34b;
+        }
+
+        .top-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Navbar moderna */
+        nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4a76, #2c7cb6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            background: none;
+            color: #2c7cb6;
+            font-size: 1.6rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a, .nav-links span {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .nav-links a {
+            color: #2c7cb6;
+            background: #eef3fc;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        .nav-links a:hover {
+            background: #e0eaf3;
+            transform: translateY(-1px);
+        }
+
+        .nav-links span {
+            color: #1f4662;
+            font-weight: 600;
+            background: #f0f4f9;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+        }
+
+        /* Hero refinada */
+        .hero {
+            text-align: center;
+            padding: 3rem 1.5rem;
+            background: linear-gradient(120deg, #ffffff 0%, #f8fafd 100%);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #1e4663;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: #4a627a;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* Barra de pesquisa */
+        .search-container {
+            max-width: 600px;
+            margin: 1.8rem auto 0;
+            display: flex;
+            gap: 0.6rem;
+            background: white;
+            padding: 0.3rem;
+            border-radius: 70px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-container input {
+            flex: 1;
+            padding: 0.85rem 1.5rem;
+            border: none;
+            border-radius: 70px;
+            font-size: 1rem;
+            background: transparent;
+            outline: none;
+            font-weight: 500;
+        }
+
+        .search-container button {
+            background: #1f6392;
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 70px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-container button:hover {
+            background: #0e4e75;
+            transform: scale(0.97);
+        }
+
+        /* Grid de cursos */
+        .cursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .curso-card {
+            background: #ffffff;
+            border-radius: 28px;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .curso-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            border-color: rgba(31, 99, 146, 0.2);
+        }
+
+        .curso-img {
+            height: 170px;
+            background: linear-gradient(145deg, #1e4a6e, #2c6a97);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            color: white;
+        }
+
+        .curso-info {
+            padding: 1.5rem 1.8rem 1.8rem;
+        }
+
+        .curso-info h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e4663;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .curso-info p {
+            color: #4a6179;
+            font-size: 0.9rem;
+            line-height: 1.45;
+            margin: 0.5rem 0;
+        }
+
+        .preco {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #1f7ca8;
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .preco small {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c86a0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.7rem 1.5rem;
+            background: #1f6392;
+            color: white;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #0e4e75;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 14px rgba(31, 99, 146, 0.2);
+        }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 40px;
+            color: #6e8aa8;
+        }
+
+        footer {
+            background: #142b3b;
+            color: #bdd4e8;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            font-size: 0.85rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 750px) {
+            .cursos-grid {
+                padding: 1.5rem;
+                gap: 1.2rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .search-container {
+                margin: 1rem 1rem;
+            }
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+            .top-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="top-header">
+        <h1>
+            <i class="fas fa-graduation-cap"></i> 
+            WEBEdu
+        </h1>
+        <p>Aprenda com os melhores e-books, no seu ritmo</p>
+    </header>
+
+    <nav>
+        <div class="logo">
+            <i class="fas fa-book-open"></i> WebEdu
+        </div>
+        <div class="nav-links" id="navLinks">
+            <!-- Conteúdo dinâmico via JS -->
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Expanda seu conhecimento</h1>
+        <p>Milhares de e-books criados por especialistas esperando por você.</p>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Pesquisar cursos..." autocomplete="off">
+            <button onclick="pesquisar()">
+                <i class="fas fa-search"></i> Buscar
+            </button>
+        </div>
+    </section>
+
+    <div class="cursos-grid" id="cursosContainer">
+        <!-- Cursos serão carregados via JS -->
+        <div class="empty-state">
+            <i class="fas fa-spinner fa-pulse"></i> Carregando cursos...
+        </div>
+    </div>
+
+    <footer>
+        <p><i class="fas fa-laptop-code"></i> &copy; 2025 WebEdu - Transformando conhecimento em e-books.</p>
+    </footer>
+
+    <script>
+        // Atualiza navegação baseado no login (mesma lógica, mas com estilo aprimorado)
+        async function updateNav() {
+            const nav = document.getElementById('navLinks');
+            try {
+                const resp = await fetch('/api/usuario');
+                if (resp.ok) {
+                    const user = await resp.json();
+                    const tipoLabel = user.tipo === 'criador' ? '🧑‍🏫 Educador' : '👩‍🎓 Aluno';
+                    nav.innerHTML = `
+                        <span><i class="fas fa-user-circle"></i> Olá, ${user.nome} (${tipoLabel})</span>
+                        ${user.tipo === 'criador' ? '<a href="/novo-curso"><i class="fas fa-plus-circle"></i> Novo Curso</a>' : ''}
+                        <a href="/dashboard"><i class="fas fa-chalkboard-user"></i> Dashboard</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                    `;
+                } else {
+                    nav.innerHTML = `
+                        <a href="/login"><i class="fas fa-arrow-right-to-bracket"></i> Entrar</a>
+                        <a href="/cadastro"><i class="fas fa-user-plus"></i> Cadastrar</a>
+                    `;
+                }
+            } catch(e) {
+                nav.innerHTML = `<a href="/login">Entrar</a><a href="/cadastro">Cadastrar</a>`;
+            }
+        }
+
+        async function logout() {
+            await fetch('/api/logout', { method: 'POST' });
+            window.location.reload();
+        }
+
+        async function carregarCursos(termo = '') {
+            const container = document.getElementById('cursosContainer');
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-spinner fa-pulse"></i> Buscando cursos...</div>';
+            try {
+                const url = termo ? `/api/cursos?q=${encodeURIComponent(termo)}` : '/api/cursos';
+                const resp = await fetch(url);
+                if (!resp.ok) throw new Error('Erro na requisição');
+                const cursos = await resp.json();
+                
+                if (!cursos || cursos.length === 0) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-box-open"></i> Nenhum curso encontrado. Tente outra busca!</div>';
+                    return;
+                }
+                
+                container.innerHTML = cursos.map(curso => `
+                    <div class="curso-card">
+                        <div class="curso-img">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="curso-info">
+                            <h3><i class="fas fa-chalkboard"></i> ${escapeHtml(curso.titulo)}</h3>
+                            <p>${escapeHtml(curso.descricao || 'Conteúdo completo em formato e-book, pronto para você aprender.')}</p>
+                            <div class="preco">
+                                R$ ${curso.preco ? curso.preco.toFixed(2) : '0,00'} <small>acesso vitalício</small>
+                            </div>
+                            <a href="/curso/${curso.id}" class="btn">
+                                <i class="fas fa-eye"></i> Ver detalhes
+                            </a>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> Erro ao carregar cursos. Tente novamente.</div>';
+            }
+        }
+
+        function pesquisar() {
+            const termo = document.getElementById('searchInput').value.trim();
+            carregarCursos(termo);
+        }
+
+        // Escape simples para evitar XSS
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        // Suporte para tecla Enter no campo de busca
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') pesquisar();
+        });
+
+        window.onload = () => {
+            updateNav();
+            carregarCursos();
+        };
+    </script>
+</body>
+</html>

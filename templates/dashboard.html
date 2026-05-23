@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>WebEdu · Seu espaço de aprendizado</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f4f7fc 0%, #eef2f5 100%);
+            color: #1a2c3e;
+            line-height: 1.5;
+            scroll-behavior: smooth;
+        }
+
+        /* modern container & layout */
+        .container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        /* navbar refinada */
+        nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e4a76, #2c7cb6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo i {
+            background: none;
+            color: #2c7cb6;
+            font-size: 1.6rem;
+            background-clip: unset;
+            -webkit-background-clip: unset;
+            color: #2a6e9e;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            color: #2c3e4e;
+        }
+
+        .nav-links a:first-child {
+            color: #1e6bb8;
+        }
+
+        .nav-links a:first-child i {
+            margin-right: 6px;
+        }
+
+        .nav-links a:last-child {
+            color: #c0392b;
+            background: rgba(192, 57, 43, 0.08);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+
+        .nav-links a:last-child i {
+            margin-right: 6px;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+            transform: translateY(-1px);
+        }
+
+        /* cards elegantes */
+        .welcome {
+            background: #ffffff;
+            border-radius: 28px;
+            padding: 2rem 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+
+        .welcome h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: #0a2b3f;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .welcome h1 i {
+            font-size: 2rem;
+            color: #f6ae3d;
+        }
+
+        .welcome p {
+            margin-top: 0.5rem;
+            color: #4a627a;
+            font-size: 1rem;
+            background: #eff3f8;
+            display: inline-block;
+            padding: 0.3rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 500;
+        }
+
+        /* barra de ações - botões */
+        .action-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.75rem 1.6rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: none;
+            cursor: pointer;
+            background: #f0f4f9;
+            color: #1f3b4c;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        .btn i {
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: #1f6392;
+            color: white;
+            box-shadow: 0 2px 8px rgba(31, 99, 146, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: #0e4e75;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(31, 99, 146, 0.25);
+        }
+
+        .btn-success {
+            background: #2c8c5a;
+            color: white;
+            box-shadow: 0 2px 8px rgba(44, 140, 90, 0.2);
+        }
+
+        .btn-success:hover {
+            background: #1f6e47;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 140, 90, 0.25);
+        }
+
+        .btn-secondary {
+            background: #5d6e7e;
+            color: white;
+            box-shadow: 0 2px 8px rgba(93, 110, 126, 0.15);
+        }
+
+        .btn-secondary:hover {
+            background: #445566;
+            transform: translateY(-2px);
+        }
+
+        /* grid cards dashboard */
+        .card-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 1.6rem 1.8rem;
+            transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.1);
+            border-color: rgba(31, 99, 146, 0.15);
+        }
+
+        .card h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e4663;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 4px solid #2c7cb6;
+            padding-left: 14px;
+        }
+
+        .card h2 i {
+            color: #2c7cb6;
+            font-size: 1.3rem;
+        }
+
+        /* estatísticas dentro do resumo */
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 0.75rem 0;
+            border-bottom: 1px dashed #e2e8f0;
+            font-size: 1rem;
+        }
+
+        .stat-label {
+            font-weight: 500;
+            color: #4a6179;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-label i {
+            width: 1.6rem;
+            color: #5089b3;
+            font-size: 1rem;
+        }
+
+        .stat-number {
+            font-weight: 800;
+            font-size: 1.6rem;
+            color: #1f5e88;
+            letter-spacing: -0.5px;
+            line-height: 1;
+        }
+
+        .stat-number small {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c86a0;
+        }
+
+        /* lista de cursos criados pelo professor */
+        .creator-courses-list {
+            margin-top: 0.8rem;
+        }
+
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8fafd;
+            padding: 0.85rem 1rem;
+            border-radius: 20px;
+            margin-bottom: 0.8rem;
+            transition: 0.2s;
+            border: 1px solid #ecf3f9;
+        }
+
+        .course-item:hover {
+            background: #ffffff;
+            border-color: #cbdde9;
+        }
+
+        .course-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .course-info i {
+            font-size: 1.2rem;
+            color: #f0a34b;
+        }
+
+        .course-price {
+            font-weight: 700;
+            background: #e9f0f5;
+            padding: 0.2rem 0.7rem;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            color: #1e6f50;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 1.8rem 1rem;
+            background: #fbfdfe;
+            border-radius: 24px;
+            color: #6e8aa8;
+            font-size: 0.9rem;
+            border: 1px dashed #cbdbe2;
+        }
+
+        .empty-state i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+            opacity: 0.6;
+        }
+
+        /* responsividade refinada */
+        @media (max-width: 780px) {
+            .container {
+                padding: 0 1rem;
+                margin: 1.5rem auto;
+            }
+            .welcome h1 {
+                font-size: 1.5rem;
+            }
+            .card-section {
+                gap: 1rem;
+            }
+            .btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.85rem;
+            }
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        /* detalhes adicionais */
+        .badge-tipo {
+            background: linear-gradient(110deg, #eef3fc, #ffffff);
+            border-radius: 80px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            color: #5f7d9c;
+            font-size: 0.8rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* loader suave para stats (caso demore) não afeta estilo */
+        .loading {
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>WebEdu</span>
+        </div>
+        <div class="nav-links">
+            <a href="/"><i class="fas fa-home"></i> Início</a>
+            <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Seção de boas-vindas aprimorada -->
+        <div class="welcome">
+            <h1>
+                <i class="fas fa-hands-clapping"></i> 
+                Olá, {{ session.get('nome', usuario) }}!
+            </h1>
+            <p>
+                <i class="fas fa-user-check"></i> 
+                Tipo de conta: <strong>{{ tipo }}</strong>
+                {% if tipo == 'criador' %}
+                    <i class="fas fa-chalkboard-user" style="margin-left: 8px;"></i> Educador
+                {% else %}
+                    <i class="fas fa-book-open" style="margin-left: 8px;"></i> Aluno
+                {% endif %}
+            </p>
+        </div>
+
+        <!-- Barra de ações com ícones e melhor semântica -->
+        <div class="action-bar">
+            {% if tipo == 'criador' %}
+                <a href="/novo-curso" class="btn btn-primary"><i class="fas fa-plus-circle"></i> Criar novo curso</a>
+            {% endif %}
+            <a href="/meus-cursos" class="btn btn-success"><i class="fas fa-book"></i> Meus cursos comprados</a>
+            <a href="/" class="btn btn-secondary"><i class="fas fa-compass"></i> Explorar cursos</a>
+        </div>
+
+        <!-- Cards de estatísticas e conteúdo dinâmico -->
+        <div class="card-section">
+            <!-- Card Resumo Geral -->
+            <div class="card">
+                <h2><i class="fas fa-chart-line"></i> Resumo</h2>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-globe"></i> Total de cursos na plataforma</span>
+                        <span class="stat-number" id="totalCursos">...</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label"><i class="fas fa-ticket-alt"></i> Cursos que você possui</span>
+                        <span class="stat-number" id="totalComprados">...</span>
+                    </div>
+                </div>
+                <!-- dica motivacional extra (puramente visual) -->
+                <div style="margin-top: 1rem; font-size: 0.75rem; color: #67829c; border-top: 1px solid #ecf3f9; padding-top: 1rem;">
+                    <i class="fas fa-lightbulb"></i> Continue explorando, conhecimento transforma!
+                </div>
+            </div>
+
+            <!-- Card específico para criadores: Seus cursos publicados -->
+            {% if tipo == 'criador' %}
+            <div class="card">
+                <h2><i class="fas fa-chalkboard"></i> Seus cursos</h2>
+                <div id="meusCursosCriados" class="creator-courses-list">
+                    <!-- conteúdo preenchido via JS com estilo refinado -->
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Se não for criador, mostramos um card extra de recomendação / dica (mantém layout harmônico e moderno) -->
+            {% if tipo != 'criador' %}
+            <div class="card">
+                <h2><i class="fas fa-rocket"></i> Próximos passos</h2>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <p><i class="fas fa-search" style="color: #2c7cb6; width: 28px;"></i> Explore novos cursos na aba "Explorar cursos"</p>
+                    <p><i class="fas fa-chart-simple" style="color: #2c7cb6;"></i> Acompanhe seu progresso na seção "Meus cursos"</p>
+                    <p><i class="fas fa-award"></i> Complete aulas e ganhe certificados</p>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-laptop-code"></i> WebEdu · aprender nunca foi tão envolvente
+    </footer>
+
+    <script>
+        // Funções originais preservadas + melhor feedback visual
+        async function logout() {
+            try {
+                await fetch('/api/logout', { method: 'POST' });
+            } catch(e) { console.warn(e); }
+            window.location.href = '/';
+        }
+
+        async function loadStats() {
+            try {
+                // 1) Carregar todos os cursos
+                const respCursos = await fetch('/api/cursos');
+                const cursos = await respCursos.json();
+                const totalCursosSpan = document.getElementById('totalCursos');
+                if (totalCursosSpan) totalCursosSpan.textContent = cursos.length;
+                
+                // 2) Carregar cursos comprados pelo usuário logado
+                const respCompras = await fetch('/api/compras');
+                const compras = await respCompras.json();
+                const totalCompradosSpan = document.getElementById('totalComprados');
+                if (totalCompradosSpan) totalCompradosSpan.textContent = compras.length;
+                
+                // 3) Lógica para criador (listar cursos criados pelo usuário logado)
+                const tipo = '{{ tipo }}';
+                if (tipo === 'criador') {
+                    const userResp = await fetch('/api/usuario');
+                    const user = await userResp.json();
+                    const meusCursos = cursos.filter(c => c.criador === user.email);
+                    const divCursos = document.getElementById('meusCursosCriados');
+                    
+                    if (divCursos) {
+                        if (!meusCursos.length) {
+                            divCursos.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-feather-alt"></i>
+                                    <p>Você ainda não publicou nenhum curso.</p>
+                                    <a href="/novo-curso" class="btn btn-primary" style="margin-top: 10px; display: inline-flex; padding: 0.4rem 1.2rem; font-size: 0.8rem;">
+                                        <i class="fas fa-plus"></i> Criar primeiro curso
+                                    </a>
+                                </div>
+                            `;
+                        } else {
+                            // listagem estilizada com ícones e preço
+                            divCursos.innerHTML = meusCursos.map(curso => `
+                                <div class="course-item">
+                                    <div class="course-info">
+                                        <i class="fas fa-video"></i>
+                                        <span style="font-weight: 600;">${escapeHtml(curso.titulo)}</span>
+                                    </div>
+                                    <div class="course-price">
+                                        <i class="fas fa-tag"></i> R$ ${curso.preco ? curso.preco.toFixed(2) : '0,00'}
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Erro ao carregar estatísticas:", error);
+                const totalCursosSpan = document.getElementById('totalCursos');
+                if (totalCursosSpan) totalCursosSpan.textContent = '?';
+                const totalCompradosSpan = document.getElementById('totalComprados');
+                if (totalCompradosSpan) totalCompradosSpan.textContent = '?';
+                const divCursos = document.getElementById('meusCursosCriados');
+                if (divCursos) {
+                    divCursos.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> Não foi possível carregar os cursos. Tente novamente.</div>`;
+                }
+            }
+        }
+
+        // pequena função auxiliar para evitar XSS (segurança extra)
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        window.onload = loadStats;
+    </script>
+</body>
+</html>

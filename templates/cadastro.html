@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - WebEdu</title>
+    <style>
+        /* Mesma paleta de cores */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
+        h2 { color: #1e3a5f; margin-bottom: 1.5rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.3rem; color: #333; font-weight: 500; }
+        input, select { width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        input:focus, select:focus { border-color: #2b6eb3; outline: none; }
+        .btn { width: 100%; padding: 1rem; background: #2b6eb3; color: white; border: none; border-radius: 30px; font-weight: bold; font-size: 1rem; cursor: pointer; }
+        .btn:hover { background: #1e3a5f; }
+        .erro { color: #d32f2f; margin-top: 0.5rem; }
+        .link { text-align: center; margin-top: 1rem; }
+        .link a { color: #2b6eb3; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>📝 Criar conta</h2>
+        <form id="cadastroForm">
+            <div class="form-group">
+                <label>Nome completo</label>
+                <input type="text" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Senha (mínimo 6 caracteres)</label>
+                <input type="password" name="senha" required minlength="6">
+            </div>
+            <div class="form-group">
+                <label>Tipo de conta</label>
+                <select name="tipo" required>
+                    <option value="aluno">Aluno (quero comprar cursos)</option>
+                    <option value="criador">Criador (quero vender cursos)</option>
+                </select>
+            </div>
+            <div id="mensagemErro" class="erro"></div>
+            <button type="submit" class="btn">Cadastrar</button>
+        </form>
+        <div class="link">
+            Já tem conta? <a href="/login">Faça login</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('cadastroForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const resp = await fetch('/api/cadastro', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+            if (resp.ok) {
+                alert(result.mensagem);
+                window.location.href = '/login';
+            } else {
+                document.getElementById('mensagemErro').textContent = result.erro;
+            }
+        });
+    </script>
+</body>
+</html>

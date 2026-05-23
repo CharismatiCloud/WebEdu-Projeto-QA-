@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - WebEdu</title>
+    <style>
+        /* Mesma paleta */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .card { background: white; padding: 2.5rem; border-radius: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #1e3a5f; margin-bottom: 1.5rem; text-align: center; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; margin-bottom: 0.3rem; color: #333; }
+        input { width: 100%; padding: 0.8rem; border: 2px solid #ddd; border-radius: 8px; font-size: 1rem; }
+        .btn { width: 100%; padding: 1rem; background: #2b6eb3; color: white; border: none; border-radius: 30px; font-weight: bold; cursor: pointer; }
+        .erro { color: #d32f2f; margin-top: 0.5rem; }
+        .link { text-align: center; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2>🔐 Entrar</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label>E-mail</label>
+                <input type="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label>Senha</label>
+                <input type="password" name="senha" required>
+            </div>
+            <div id="mensagemErro" class="erro"></div>
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+        <div class="link">
+            Não tem conta? <a href="/cadastro">Cadastre-se</a>
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
+            const resp = await fetch('/api/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            });
+            const result = await resp.json();
+            if (resp.ok) {
+                window.location.href = result.redirect;
+            } else {
+                document.getElementById('mensagemErro').textContent = result.erro;
+            }
+        });
+    </script>
+</body>
+</html>

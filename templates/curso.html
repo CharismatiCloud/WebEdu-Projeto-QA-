@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{{ curso.titulo }} · WebEdu</title>
+    <!-- Google Fonts + Font Awesome 6 -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(145deg, #f4f7fc 0%, #eef2f5 100%);
+            color: #1a2c3e;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* Navbar moderna */
+        nav {
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.02), 0 2px 4px rgba(0, 0, 0, 0.02);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f0f4f9;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 500;
+            color: #1e6bb8;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+        }
+
+        .back-link i {
+            font-size: 0.9rem;
+        }
+
+        .back-link:hover {
+            background: #e3eaf1;
+            transform: translateX(-3px);
+        }
+
+        .user-info {
+            background: #eef3fc;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #1f4662;
+        }
+
+        .user-info i {
+            margin-right: 6px;
+            color: #2c7cb6;
+        }
+
+        /* Container principal com grid responsivo */
+        .container {
+            max-width: 1280px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .curso-detalhes {
+            flex: 2;
+            min-width: 260px;
+        }
+
+        .sidebar {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* Cards principais */
+        .card {
+            background: #ffffff;
+            border-radius: 32px;
+            padding: 1.8rem;
+            box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.8rem;
+        }
+
+        .card:last-child {
+            margin-bottom: 0;
+        }
+
+        .curso-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e4663;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 0.75rem;
+        }
+
+        .curso-header h1 i {
+            color: #f0a34b;
+            font-size: 1.8rem;
+        }
+
+        .curso-descricao {
+            color: #4a6179;
+            font-size: 1rem;
+            line-height: 1.5;
+            margin-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        /* Avaliação em estrelas */
+        .avaliacao {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 1.2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .estrelas {
+            color: #f5b042;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+        }
+
+        .media-nota {
+            font-weight: 600;
+            background: #f0f4f9;
+            padding: 0.2rem 0.7rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+        }
+
+        /* E-book content */
+        .ebook-content {
+            background: #f8fafd;
+            padding: 1.2rem;
+            border-radius: 24px;
+            max-height: 450px;
+            overflow-y: auto;
+            font-family: 'Inter', monospace;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+            border: 1px solid #e9edf2;
+            margin-top: 1rem;
+        }
+
+        /* Comentários */
+        .comentario {
+            border-top: 1px solid #edf2f7;
+            padding: 1rem 0;
+        }
+
+        .comentario:first-child {
+            border-top: none;
+        }
+
+        .comentario strong {
+            color: #1f4662;
+            font-weight: 600;
+        }
+
+        .comentario small {
+            color: #7c98b3;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+
+        .comentario p {
+            margin-top: 0.4rem;
+            color: #2c3e4e;
+        }
+
+        /* Formulário de comentário */
+        .form-comentario textarea {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 24px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            resize: vertical;
+        }
+
+        .form-comentario textarea:focus {
+            outline: none;
+            border-color: #2c7cb6;
+            box-shadow: 0 0 0 3px rgba(44,124,182,0.1);
+        }
+
+        .btn-small {
+            background: #1f6392;
+            color: white;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.7rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-small:hover {
+            background: #0e4e75;
+            transform: translateY(-1px);
+        }
+
+        /* Sidebar */
+        .preco-grande {
+            font-size: 2.4rem;
+            font-weight: 800;
+            color: #1f7ca8;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .preco-grande small {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #6c86a0;
+        }
+
+        .btn-comprar {
+            display: block;
+            width: 100%;
+            background: linear-gradient(105deg, #2c8c5a, #1e6f47);
+            color: white;
+            text-align: center;
+            padding: 0.9rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            margin: 1rem 0;
+            transition: all 0.2s;
+            box-shadow: 0 4px 12px rgba(44,140,90,0.2);
+        }
+
+        .btn-comprar:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(105deg, #1e6f47, #155a3a);
+            box-shadow: 0 8px 18px rgba(44,140,90,0.25);
+        }
+
+        .status-badge {
+            background: #e8f3ea;
+            color: #2e7d5e;
+            padding: 0.4rem 0.8rem;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.7rem;
+            border-radius: 60px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            font-family: inherit;
+            margin: 0.5rem 0;
+            cursor: pointer;
+        }
+
+        hr {
+            margin: 1rem 0;
+            border: none;
+            border-top: 1px solid #eef2f8;
+        }
+
+        /* Responsividade */
+        @media (max-width: 800px) {
+            .container {
+                flex-direction: column;
+                padding: 0 1rem;
+            }
+            .card {
+                padding: 1.2rem;
+            }
+            .curso-header h1 {
+                font-size: 1.6rem;
+            }
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.8rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/" class="back-link">
+            <i class="fas fa-arrow-left"></i> Início
+        </a>
+        <div id="userInfo" class="user-info">
+            <i class="fas fa-user-circle"></i> Carregando...
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Coluna principal: detalhes do curso, e-book, comentários -->
+        <div class="curso-detalhes">
+            <div class="card">
+                <div class="curso-header">
+                    <h1>
+                        <i class="fas fa-book"></i> 
+                        {{ curso.titulo }}
+                    </h1>
+                    <div class="curso-descricao">
+                        {{ curso.descricao or 'Sem descrição disponível para este curso.' }}
+                    </div>
+                </div>
+
+                <!-- Avaliação média com estrelas -->
+                <div class="avaliacao" id="avaliacaoMedia"></div>
+            </div>
+
+            <!-- Conteúdo do e-book (acesso condicional) -->
+            <div class="card" id="ebookAcesso"></div>
+
+            <!-- Seção de comentários -->
+            <div class="card">
+                <h3 style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem; color:#1e4663;">
+                    <i class="fas fa-comments"></i> Comentários
+                </h3>
+                <div id="comentariosLista"></div>
+
+                <div class="form-comentario" style="margin-top: 1.5rem;">
+                    <textarea id="novoComentario" rows="2" placeholder="Escreva um comentário..."></textarea>
+                    <button onclick="enviarComentario()" class="btn-small">
+                        <i class="fas fa-paper-plane"></i> Comentar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar: preço, compra, avaliação -->
+        <div class="sidebar">
+            <div class="card">
+                <div class="preco-grande">
+                    R$ {{ "%.2f"|format(curso.preco) }} <small>acesso vitalício</small>
+                </div>
+                <div id="statusCompra"></div>
+                <button id="btnComprar" class="btn-comprar">
+                    <i class="fas fa-shopping-cart"></i> Comprar agora
+                </button>
+                <hr>
+                <h4 style="margin-bottom: 0.5rem;"><i class="fas fa-star"></i> Avalie este curso</h4>
+                <select id="notaAvaliacao">
+                    <option value="5">⭐⭐⭐⭐⭐ (5 estrelas)</option>
+                    <option value="4">⭐⭐⭐⭐ (4 estrelas)</option>
+                    <option value="3">⭐⭐⭐ (3 estrelas)</option>
+                    <option value="2">⭐⭐ (2 estrelas)</option>
+                    <option value="1">⭐ (1 estrela)</option>
+                </select>
+                <button onclick="avaliarCurso()" class="btn-small" style="width: 100%; justify-content: center; margin-top: 0.5rem;">
+                    <i class="fas fa-check-circle"></i> Enviar avaliação
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const cursoId = {{ curso.id }};
+        let usuarioAtual = null;
+
+        async function init() {
+            await carregarUsuario();
+            await carregarAvaliacaoMedia();
+            await carregarComentarios();
+            await verificarAcessoEbook();
+            await verificarCompra();
+        }
+
+        async function carregarUsuario() {
+            const userSpan = document.getElementById('userInfo');
+            try {
+                const resp = await fetch('/api/usuario');
+                if (resp.ok) {
+                    usuarioAtual = await resp.json();
+                    const tipoLabel = usuarioAtual.tipo === 'criador' ? 'Educador' : 'Aluno';
+                    userSpan.innerHTML = `<i class="fas fa-user-circle"></i> ${usuarioAtual.nome} (${tipoLabel})`;
+                    if (usuarioAtual.tipo === 'criador' && usuarioAtual.email === '{{ curso.criador }}') {
+                        const statusDiv = document.getElementById('statusCompra');
+                        statusDiv.innerHTML = `<div class="status-badge"><i class="fas fa-crown"></i> Você é o criador deste curso</div>`;
+                        document.getElementById('btnComprar').style.display = 'none';
+                    }
+                } else {
+                    userSpan.innerHTML = `<a href="/login" style="color:#2c7cb6; text-decoration:none;"><i class="fas fa-sign-in-alt"></i> Entrar</a>`;
+                }
+            } catch(e) {
+                userSpan.innerHTML = `<a href="/login">Entrar</a>`;
+            }
+        }
+
+        async function carregarAvaliacaoMedia() {
+            try {
+                const resp = await fetch(`/api/cursos/${cursoId}/avaliacao`);
+                const data = await resp.json();
+                const div = document.getElementById('avaliacaoMedia');
+                const media = data.media || 0;
+                const estrelasCheias = '★'.repeat(Math.round(media));
+                const estrelasVazias = '☆'.repeat(5 - Math.round(media));
+                div.innerHTML = `
+                    <span class="estrelas">${estrelasCheias}${estrelasVazias}</span>
+                    <span class="media-nota">${media.toFixed(1)} (${data.total || 0} avaliações)</span>
+                `;
+            } catch(e) {
+                console.warn(e);
+            }
+        }
+
+        async function carregarComentarios() {
+            const container = document.getElementById('comentariosLista');
+            try {
+                const resp = await fetch(`/api/cursos/${cursoId}/comentarios`);
+                const comentarios = await resp.json();
+                if (!comentarios.length) {
+                    container.innerHTML = '<p style="color:#7c98b3; text-align:center; padding:1rem;">Nenhum comentário ainda. Seja o primeiro!</p>';
+                    return;
+                }
+                container.innerHTML = comentarios.map(c => `
+                    <div class="comentario">
+                        <strong><i class="fas fa-user"></i> ${escapeHtml(c.nome)}</strong> 
+                        <small>${new Date(c.data).toLocaleString('pt-BR')}</small>
+                        <p>${escapeHtml(c.texto)}</p>
+                    </div>
+                `).join('');
+            } catch(e) {
+                container.innerHTML = '<p>Erro ao carregar comentários.</p>';
+            }
+        }
+
+        async function enviarComentario() {
+            if (!usuarioAtual) { alert('Faça login para comentar.'); return; }
+            const texto = document.getElementById('novoComentario').value.trim();
+            if (!texto) return;
+            const resp = await fetch(`/api/cursos/${cursoId}/comentarios`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ texto })
+            });
+            if (resp.ok) {
+                document.getElementById('novoComentario').value = '';
+                await carregarComentarios();
+            } else {
+                const err = await resp.json();
+                alert(err.erro || 'Erro ao enviar comentário.');
+            }
+        }
+
+        async function avaliarCurso() {
+            if (!usuarioAtual) { alert('Faça login para avaliar.'); return; }
+            const nota = document.getElementById('notaAvaliacao').value;
+            const resp = await fetch(`/api/cursos/${cursoId}/avaliacao`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nota: parseInt(nota) })
+            });
+            if (resp.ok) {
+                alert('Avaliação enviada com sucesso!');
+                await carregarAvaliacaoMedia();
+            } else {
+                const err = await resp.json();
+                alert(err.erro || 'Erro ao enviar avaliação.');
+            }
+        }
+
+        async function verificarCompra() {
+            if (!usuarioAtual) return;
+            try {
+                const resp = await fetch('/api/compras');
+                const compras = await resp.json();
+                const jaComprou = compras.some(c => c.id == cursoId);
+                if (jaComprou) {
+                    document.getElementById('btnComprar').style.display = 'none';
+                    document.getElementById('statusCompra').innerHTML = `<div class="status-badge"><i class="fas fa-check-circle"></i> Você já possui este curso</div>`;
+                }
+            } catch(e) {}
+        }
+
+        async function verificarAcessoEbook() {
+            const ebookDiv = document.getElementById('ebookAcesso');
+            if (!usuarioAtual) {
+                ebookDiv.innerHTML = `<div class="card" style="background:#fafcff;"><p><i class="fas fa-lock"></i> Faça login para visualizar o conteúdo do e-book.</p></div>`;
+                return;
+            }
+            try {
+                const resp = await fetch(`/api/cursos/${cursoId}/acesso`);
+                const data = await resp.json();
+                if (data.acesso && data.ebook) {
+                    ebookDiv.innerHTML = `
+                        <h3 style="display: flex; align-items: center; gap: 8px; margin-bottom: 0.8rem;">
+                            <i class="fas fa-file-alt"></i> Conteúdo do E-book
+                        </h3>
+                        <div class="ebook-content">${escapeHtml(data.ebook)}</div>
+                    `;
+                } else {
+                    ebookDiv.innerHTML = `<div style="background:#f8fafd; border-radius:24px; padding:1.2rem; text-align:center; color:#6c86a0;">
+                        <i class="fas fa-lock"></i> Adquira o curso para acessar o e-book completo.
+                    </div>`;
+                }
+            } catch(e) {
+                ebookDiv.innerHTML = `<p>ao comprar poderá ver o conteúdo.</p>`;
+            }
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        document.getElementById('btnComprar').addEventListener('click', async () => {
+            if (!usuarioAtual) { alert('Faça login para comprar.'); return; }
+            try {
+                const resp = await fetch(`/api/cursos/${cursoId}/comprar`, { method: 'POST' });
+                const data = await resp.json();
+                if (resp.ok) {
+                    alert(data.mensagem || 'Compra realizada com sucesso!');
+                    await verificarCompra();
+                    await verificarAcessoEbook();
+                } else {
+                    alert(data.erro || 'Erro ao processar compra.');
+                }
+            } catch(e) {
+                alert('Erro de conexão.');
+            }
+        });
+
+        init();
+    </script>
+</body>
+</html>

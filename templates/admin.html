@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Admin Dashboard · WebEdu</title>
+<!-- Google Fonts + Font Awesome 6 -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    :root {
+        --bg-deep: #0a0f1c;
+        --bg-surface: rgba(18, 25, 45, 0.65);
+        --bg-card: rgba(15, 23, 42, 0.7);
+        --border-glow: rgba(59, 130, 246, 0.2);
+        --primary: #3b82f6;
+        --primary-hover: #2563eb;
+        --primary-light: #60a5fa;
+        --accent: #8b5cf6;
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --success: #4ade80;
+        --danger: #f87171;
+        --warning: #fbbf24;
+        --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.4);
+        --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at 10% 20%, #0f172a, #020617);
+        color: var(--text-primary);
+        line-height: 1.5;
+        min-height: 100vh;
+    }
+
+    /* Header com vidro refinado */
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(8, 12, 24, 0.85);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        padding: 1rem 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .logo-area {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 1.25rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #fff, #60a5fa);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+    }
+
+    .logo-area i {
+        background: none;
+        color: var(--primary-light);
+        font-size: 1.6rem;
+    }
+
+    .badge-admin {
+        background: rgba(239, 68, 68, 0.2);
+        padding: 0.25rem 0.9rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        color: #f87171;
+        border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    /* Container principal */
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+
+    /* Seções */
+    .section {
+        margin-bottom: 3rem;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 1.2rem;
+    }
+
+    .section-header i {
+        font-size: 1.5rem;
+        color: var(--primary-light);
+        background: rgba(59, 130, 246, 0.15);
+        padding: 0.5rem;
+        border-radius: 14px;
+    }
+
+    .section-header h2 {
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        letter-spacing: -0.2px;
+    }
+
+    .count-badge {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 0.2rem 0.7rem;
+        border-radius: 30px;
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--text-secondary);
+    }
+
+    /* Cards com efeito glassmorphism aprimorado */
+    .card {
+        background: var(--bg-card);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(59, 130, 246, 0.15);
+        border-radius: 24px;
+        overflow-x: auto;
+        transition: var(--transition);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card:hover {
+        border-color: rgba(59, 130, 246, 0.4);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+
+    /* Tabelas responsivas */
+    .table-wrapper {
+        overflow-x: auto;
+        border-radius: 24px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+    }
+
+    thead tr {
+        background: rgba(59, 130, 246, 0.08);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+    }
+
+    th {
+        text-align: left;
+        padding: 1rem 1.2rem;
+        font-weight: 600;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: var(--text-muted);
+    }
+
+    td {
+        padding: 1rem 1.2rem;
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        transition: var(--transition);
+    }
+
+    tbody tr {
+        transition: var(--transition);
+    }
+
+    tbody tr:hover {
+        background: rgba(59, 130, 246, 0.06);
+        transform: scale(1.002);
+    }
+
+    /* Tooltips elegantes */
+    .tooltip {
+        position: relative;
+        cursor: help;
+        border-bottom: 1px dashed rgba(96, 165, 250, 0.4);
+    }
+
+    .tooltip::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 125%;
+        left: 0;
+        background: #0f172a;
+        color: #e2e8f0;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.7rem;
+        border-radius: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(5px);
+        transition: 0.15s ease;
+        pointer-events: none;
+        z-index: 30;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        font-weight: 500;
+        letter-spacing: -0.2px;
+    }
+
+    .tooltip:hover::after {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Badges modernos */
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 0.2rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        background: rgba(100, 116, 139, 0.2);
+        color: #cbd5e1;
+    }
+
+    .badge i {
+        font-size: 0.65rem;
+    }
+
+    .admin {
+        background: rgba(239, 68, 68, 0.18);
+        color: #f87171;
+        border: 1px solid rgba(248, 113, 113, 0.3);
+    }
+
+    .user {
+        background: rgba(59, 130, 246, 0.18);
+        color: #60a5fa;
+        border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+
+    .criador {
+        background: rgba(139, 92, 246, 0.18);
+        color: #a78bfa;
+        border: 1px solid rgba(167, 139, 250, 0.3);
+    }
+
+    /* Preço com destaque */
+    .price {
+        color: var(--success);
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .price i {
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+
+    /* ID com estilo monoespaçado */
+    .id-cell {
+        font-family: 'Monaco', monospace;
+        font-size: 0.75rem;
+        letter-spacing: -0.2px;
+        color: var(--text-muted);
+    }
+
+    /* Rodapé invisível */
+    .footer-note {
+        text-align: center;
+        padding: 2rem 1rem 1rem;
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 1rem;
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #0f172a;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #3b82f6;
+    }
+
+    /* Responsividade */
+    @media (max-width: 780px) {
+        .container {
+            padding: 1rem;
+        }
+        th, td {
+            padding: 0.8rem;
+        }
+        header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .section-header h2 {
+            font-size: 1.1rem;
+        }
+    }
+
+    /* Efeito de brilho sutil nos cards */
+    .card {
+        position: relative;
+        overflow: hidden;
+    }
+    .card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -50%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(59,130,246,0.08), transparent);
+        transform: skewX(-20deg);
+        transition: 0.5s;
+        pointer-events: none;
+    }
+    .card:hover::before {
+        left: 150%;
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo-area">
+        <i class="fas fa-shield-alt"></i> 
+        <span>WebEdu · Admin Core</span>
+        <span class="badge-admin"><i class="fas fa-lock"></i> Área restrita</span>
+    </div>
+    <div style="font-size: 0.75rem; display: flex; gap: 12px;">
+        <i class="fas fa-database"></i> <span id="liveClock"></span>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- USUÁRIOS -->
+    <div class="section">
+        <div class="section-header">
+            <i class="fas fa-users"></i>
+            <h2>Usuários da plataforma</h2>
+            <div class="count-badge">{{ usuarios|length }} registrados</div>
+        </div>
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-envelope"></i> Email</th>
+                            <th><i class="fas fa-user"></i> Nome</th>
+                            <th><i class="fas fa-tag"></i> Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in usuarios %}
+                        <tr>
+                            <td class="tooltip" data-tooltip="Email cadastrado">
+                                <i class="fas fa-at" style="opacity:0.6; width:18px;"></i> {{ u.email }}
+                            </td>
+                            <td><i class="fas fa-user-circle"></i> {{ u.nome }}</td>
+                            <td>
+                                <span class="badge {{ u.tipo }}">
+                                    <i class="fas {{ 'fa-crown' if u.tipo == 'admin' else 'fa-user-graduate' if u.tipo == 'criador' else 'fa-user' }}"></i>
+                                    {{ u.tipo }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- CURSOS -->
+    <div class="section">
+        <div class="section-header">
+            <i class="fas fa-graduation-cap"></i>
+            <h2>Cursos disponíveis</h2>
+            <div class="count-badge">{{ cursos|length }} publicados</div>
+        </div>
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Título</th>
+                            <th>Preço</th>
+                            <th>Criador</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in cursos %}
+                        <tr>
+                            <td class="id-cell">#{{ c.id }}</td>
+                            <td class="tooltip" data-tooltip="{{ c.descricao or 'Clique para mais detalhes' }}">
+                                <i class="fas fa-book"></i> {{ c.titulo }}
+                            </td>
+                            <td class="price"><i class="fas fa-tag"></i> R$ {{ "%.2f"|format(c.preco) }}</td>
+                            <td><i class="fas fa-chalkboard-user"></i> {{ c.criador }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMPRAS -->
+    <div class="section">
+        <div class="section-header">
+            <i class="fas fa-shopping-cart"></i>
+            <h2>Histórico de compras</h2>
+            <div class="count-badge">{{ compras|length }} transações</div>
+        </div>
+        <div class="card">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuário</th>
+                            <th>Curso</th>
+                            <th>Data da compra</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in compras %}
+                        <tr>
+                            <td class="id-cell">#{{ c.id }}</td>
+                            <td class="tooltip" data-tooltip="Cliente">
+                                <i class="fas fa-user-check"></i> {{ c.usuario_email }}
+                            </td>
+                            <td><i class="fas fa-layer-group"></i> Curso #{{ c.curso_id }}</td>
+                            <td>
+                                <i class="far fa-calendar-alt"></i> 
+                                {% set data_formatada = c.data_compra %}
+                                {% if data_formatada %}
+                                    {{ data_formatada.replace('-', '/') }}
+                                {% else %}
+                                    {{ c.data_compra }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <i class="fas fa-chart-line"></i> Painel administrativo · Métricas em tempo real | WebEdu
+    </div>
+</div>
+
+<script>
+    // Relógio ao vivo (apenas detalhe visual)
+    function updateClock() {
+        const now = new Date();
+        const formatted = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        const clockSpan = document.getElementById('liveClock');
+        if (clockSpan) clockSpan.innerHTML = `<i class="far fa-clock"></i> ${formatted}`;
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Pequeno efeito interativo nos tooltips para mobile (opcional)
+    if (window.innerWidth <= 768) {
+        const tooltips = document.querySelectorAll('.tooltip');
+        tooltips.forEach(el => {
+            el.addEventListener('click', (e) => {
+                const tooltipText = el.getAttribute('data-tooltip');
+                if (tooltipText) alert(tooltipText);
+            });
+        });
+    }
+</script>
+</body>
+</html>
