@@ -39,8 +39,23 @@ edustark/
     └── js/
         └── main.js        # Regras de comportamento e chamadas de API
  ```
-🚀 Como Rodar a AplicaçãoPré-requisitosCertifique-se de ter o Python 3.x instalado em sua máquina.Passo a PassoClone o repositório:Bash   git clone [https://github.com/seu-usuario/webeduc.git](https://github.com/seu-usuario/webeduc.git)
+🚀 Como Rodar a Aplicação
+Pré-requisitos
+Certifique-se de ter o Python 3.x instalado em sua máquina.
+
+Passo a Passo
+Clone o repositório:
+```
+git clone [https://github.com/seu-usuario/webeduc.git](https://github.com/seu-usuario/webeduc.git)
    cd webeduc
-Instale as dependências:Bash   pip install -r requirements.txt
-(Ou utilize o comando rápido: pip install flask)Execute o servidor:Bash   python app.py
-Acesse no navegador:Abra o endereço http://localhost:5000🔌 Endpoints da APIAbaixo estão listadas as rotas da API utilizadas para a integração com o front-end e para a automação de testes:MétodoRotaDescriçãoRequer Autenticação (Auth)POST/api/cadastroCadastrar um novo usuário no sistema—POST/api/loginAutenticar usuário e iniciar sessão—POST/api/logoutEncerrar a sessão do usuário—GET/api/cursosRetornar a lista de todos os cursos públicos—POST/api/cursosPublicar um novo curso com e-book✓🧪 Mapeamento: Testes de QA vs. Regras do SistemaEsta tabela correlaciona os cenários de teste planejados com as validações de backend esperadas e seus respectivos retornos HTTP:ID do TesteEndpoint AlvoValidação Implementada (Regra de Negócio)Status HTTP EsperadosT1POST /api/cadastroValida campos obrigatórios, formato do e-mail e senha com no mínimo 6 caracteres.201 / 400 / 409T2POST /api/loginRejeita a autenticação caso a senha esteja incorreta.401T3POST /api/loginRejeita a autenticação caso o e-mail não esteja cadastrado.404T4aPOST /api/cursosRejeita a criação do curso se o preço for negativo.400T4bPOST /api/cursosRejeita a criação do curso se o preço for nulo ou vazio.400T4cPOST /api/cursosCria o curso com sucesso quando todos os dados enviados são válidos.201T5POST /api/cursosRejeita a criação se o título do curso estiver em branco.400T6POST /api/cursosRejeita a criação se o conteúdo do e-book estiver vazio.400T7POST /api/cursosRejeita se o conteúdo do e-book ultrapassar 5000 caracteres (retorna contagem).400
+```
+Instale as dependências:
+```
+pip install -r requirements.txt
+```
+Execute o servidor:
+```
+python app.py
+```
+Acesse no navegador:
+Abra o endereço http://localhost:5000
